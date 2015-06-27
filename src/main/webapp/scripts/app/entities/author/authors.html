@@ -1,0 +1,154 @@
+<div>
+
+    <h2 translate="bookstoreApp.author.home.title">Authors</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveAuthorModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="bookstoreApp.author.home.createLabel">Create a new Author</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveAuthorModal" tabindex="-1" role="dialog" aria-labelledby="myAuthorLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myAuthorLabel" translate="bookstoreApp.author.home.createOrEditLabel">Create or edit a Author</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="author.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="bookstoreApp.author.name">Name</label>
+                            <input type="text" class="form-control" name="name"
+                                   ng-model="author.name">
+
+                            <div ng-show="editForm.name.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="bookstoreApp.author.surname">Surname</label>
+                            <input type="text" class="form-control" name="surname"
+                                   ng-model="author.surname">
+
+                            <div ng-show="editForm.surname.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="bookstoreApp.author.description">Description</label>
+                            <input type="text" class="form-control" name="description"
+                                   ng-model="author.description">
+
+                        </div>
+                        <div class="form-group">
+                            <label translate="bookstoreApp.author.birthDate">BirthDate</label>
+                            <input type="date" class="form-control" name="birthDate"
+                                   ng-model="author.birthDate">
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteAuthorConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(author.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="bookstoreApp.author.delete.question" translate-values="{id: '{{author.id}}'}">Are you sure you want to delete this Author?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th translate="bookstoreApp.author.name">Name</th>
+                    <th translate="bookstoreApp.author.surname">Surname</th>
+                    <th translate="bookstoreApp.author.description">Description</th>
+                    <th translate="bookstoreApp.author.birthDate">BirthDate</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="author in authors">
+                    <td><a ui-sref="authorDetail({id:author.id})">{{author.id}}</a></td>
+                    <td>{{author.name}}</td>
+                    <td>{{author.surname}}</td>
+                    <td>{{author.description}}</td>
+                    <td>{{author.birthDate}}</td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="authorDetail({id:author.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="showUpdate(author.id)"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(author.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
