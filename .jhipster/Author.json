@@ -1,0 +1,55 @@
+{
+    "relationships": [],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Name",
+            "fieldNameUnderscored": "name",
+            "fieldInJavaBeanMethod": "Name",
+            "fieldValidate": true,
+            "fieldValidateRules": []
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "surname",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Surname",
+            "fieldNameUnderscored": "surname",
+            "fieldInJavaBeanMethod": "Surname",
+            "fieldValidate": true,
+            "fieldValidateRules": []
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldNameCapitalized": "Description",
+            "fieldNameUnderscored": "description",
+            "fieldInJavaBeanMethod": "Description",
+            "fieldValidate": false
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "birthDate",
+            "fieldType": "LocalDate",
+            "fieldNameCapitalized": "BirthDate",
+            "fieldNameUnderscored": "birth_date",
+            "fieldInJavaBeanMethod": "BirthDate",
+            "fieldValidate": false
+        }
+    ],
+    "fieldsContainOwnerManyToMany": false,
+    "fieldsContainOwnerOneToOne": false,
+    "fieldsContainOneToMany": false,
+    "fieldsContainLocalDate": true,
+    "fieldsContainCustomTime": true,
+    "fieldsContainBigDecimal": false,
+    "fieldsContainDateTime": false,
+    "fieldsContainDate": false,
+    "changelogDate": "20150627193612",
+    "dto": "no",
+    "pagination": "pagination",
+    "validation": true
+}
