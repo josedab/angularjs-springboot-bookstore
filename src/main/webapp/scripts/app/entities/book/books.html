@@ -1,0 +1,169 @@
+<div>
+
+    <h2 translate="bookstoreApp.book.home.title">Books</h2>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <button class="btn btn-primary" data-toggle="modal" data-target="#saveBookModal" ng-click="clear()">
+                    <span class="glyphicon glyphicon-flash"></span> <span translate="bookstoreApp.book.home.createLabel">Create a new Book</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="saveBookModal" tabindex="-1" role="dialog" aria-labelledby="myBookLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" id="myBookLabel" translate="bookstoreApp.book.home.createOrEditLabel">Create or edit a Book</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" name="id"
+                                   ng-model="book.id" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="bookstoreApp.book.title">Title</label>
+                            <input type="text" class="form-control" name="title"
+                                   ng-model="book.title">
+
+                            <div ng-show="editForm.title.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="bookstoreApp.book.description">Description</label>
+                            <input type="text" class="form-control" name="description"
+                                   ng-model="book.description">
+
+                            <div ng-show="editForm.description.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="bookstoreApp.book.publicationDate">PublicationDate</label>
+                            <input type="date" class="form-control" name="publicationDate"
+                                   ng-model="book.publicationDate">
+
+                            <div ng-show="editForm.publicationDate.$invalid">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label translate="bookstoreApp.book.price">Price</label>
+                            <input type="number" class="form-control" name="price"
+                                   ng-model="book.price">
+
+                            <div ng-show="editForm.price.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.price.$error.number" translate="entity.validation.number">
+                                    This field should be a number.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label translate="bookstoreApp.book.author">author</label>
+                            <select class="form-control" name="author" ng-model="book.author.id" ng-options="author.id as author.name for author in authors">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="editForm.$invalid" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteBookConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form name="deleteForm" ng-submit="confirmDelete(book.id)">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                                ng-click="clear()">&times;</button>
+                        <h4 class="modal-title" translate="entity.delete.title">Confirm delete operation</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p translate="bookstoreApp.book.delete.question" translate-values="{id: '{{book.id}}'}">Are you sure you want to delete this Book?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+                        </button>
+                        <button type="submit" ng-disabled="deleteForm.$invalid" class="btn btn-danger">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th translate="bookstoreApp.book.title">Title</th>
+                    <th translate="bookstoreApp.book.description">Description</th>
+                    <th translate="bookstoreApp.book.publicationDate">PublicationDate</th>
+                    <th translate="bookstoreApp.book.price">Price</th>
+                    <th translate="bookstoreApp.book.author">author</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="book in books">
+                    <td><a ui-sref="bookDetail({id:book.id})">{{book.id}}</a></td>
+                    <td>{{book.title}}</td>
+                    <td>{{book.description}}</td>
+                    <td>{{book.publicationDate}}</td>
+                    <td>{{book.price}}</td>
+                    <td>{{book.author.name}}</td>
+                    <td>
+                        <button type="submit"
+                                ui-sref="bookDetail({id:book.id})"
+                                class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>&nbsp;<span translate="entity.action.view"> View</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="showUpdate(book.id)"
+                                class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;<span translate="entity.action.edit"> Edit</span>
+                        </button>
+                        <button type="submit"
+                                ng-click="delete(book.id)"
+                                class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-remove-circle"></span>&nbsp;<span translate="entity.action.delete"> Delete</span>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li ng-show="links['first']" ng-click="loadPage(links['first'])"><a>&lt;&lt;</a></li>
+                <li ng-show="links['prev']" ng-click="loadPage(links['prev'])"><a>&lt;</a></li>
+                <li ng-show="page > 2" ng-click="loadPage(page - 2)"><a>{{page - 2}}</a></li>
+                <li ng-show="page > 1" ng-click="loadPage(page - 1)"><a>{{page - 1}}</a></li>
+                <li class="active"><a>{{page}}</a></li>
+                <li ng-show="page < links['last']" ng-click="loadPage(page + 1)"><a>{{page + 1}}</a></li>
+                <li ng-show="page < links['last'] - 1" ng-click="loadPage(page + 2)"><a>{{page + 2}}</a></li>
+                <li ng-show="links['next']" ng-click="loadPage(links['next'])"><a>&gt;</a></li>
+                <li ng-show="links['last']" ng-click="loadPage(links['last'])"><a>&gt;&gt;</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
