@@ -1,0 +1,23 @@
+{
+    "bookstoreApp": {
+        "book" : {
+            "home": {
+                "title": "Books",
+                "createLabel": "Créer un nouveau Book",
+                "createOrEditLabel": "Créer ou éditer un Book"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Book {{ id }} ?"
+            },
+            "detail": {
+                "title": "Book"
+            },
+            "title": "Title",
+            "description": "Description",
+            "publicationDate": "PublicationDate",
+            "price": "Price",
+            "author": "author"
+        }
+    }
+}
+
